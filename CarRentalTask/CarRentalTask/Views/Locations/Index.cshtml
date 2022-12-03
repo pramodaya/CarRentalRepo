@@ -180,7 +180,6 @@
         if (nameValidated && surnameValidated) {
             createReservation(offerUId, name, surName);
             resetModal();
-            //$('#place_order_modal').modal('hide');
         }
 
 
@@ -194,13 +193,6 @@
         $('#userSurName').val("")
         $('#offerUId').val("")
 
-    }
-
-
-    function formValidation(name, surname) {
-        if (name === "") {
-
-        }
     }
 
     function showModal(offerUId) {
@@ -219,7 +211,6 @@
         $('#success_msg').append(txt);
  
     }
-
 
     </script>
 
