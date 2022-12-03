@@ -1,0 +1,39 @@
+﻿<Properties StartupConfiguration="{556DBBC9-A4A2-44BF-9154-8172F88A9780}|https">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CarRentalTask/Controllers/LocationsController.cs">
+    <Files>
+      <File FileName="CarRentalTask/Models/Location.cs" Line="1" Column="1" IsPinned="True" />
+      <File FileName="CarRentalTask/Views/Locations/Index.cshtml" Line="40" Column="32" IsPinned="True" />
+      <File FileName="CarRentalTask/Controllers/LocationsController.cs" Line="68" Column="46" IsPinned="True" />
+      <File FileName="CarRentalTask/Models/Offer.cs" Line="11" Column="1" />
+      <File FileName="CarRentalTask/Models/Offer (copy).cs" Line="4" Column="26" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CarRentalTask" expanded="True">
+            <Node name="CarRentalTask" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="LocationsController.cs" selected="True" />
+              </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="Locations" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.CarRentalTask PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/pramodaya/Desktop/CarRentalRepo/CarRentalTask/CarRentalTask/Controllers/LocationsController.cs" relfile="CarRentalTask/Controllers/LocationsController.cs" line="89" column="1" />
+      <Breakpoint file="/Users/pramodaya/Desktop/CarRentalRepo/CarRentalTask/CarRentalTask/Controllers/LocationsController.cs" relfile="CarRentalTask/Controllers/LocationsController.cs" line="63" column="1" />
+      <Breakpoint file="/Users/pramodaya/Desktop/CarRentalRepo/CarRentalTask/CarRentalTask/Controllers/LocationsController.cs" relfile="CarRentalTask/Controllers/LocationsController.cs" line="73" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

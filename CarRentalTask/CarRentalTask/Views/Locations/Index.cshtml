@@ -1,0 +1,227 @@
+﻿@{
+    ViewBag.Title = "Location";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="success_msg"></div>
+
+<table id="tbLocation" class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr>
+            <th> Country </th>
+            <th> City </th>
+            <th> Name </th>
+            <th> Find Offers </th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+<div id="cardList" class="card-group row"></div>
+
+
+
+<div id="poup_modal">
+    <!-- Modal -->
+    <div class="modal" id="place_order_modal" tabindex="-1" role="dialog" aria-labelledby="place_order_modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="place_order_modalLabel">Reserve</h5>
+                </div>
+                <form id="modalForm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Name</label>
+                            <input required type="text" class="form-control" id="userName" aria-describedby="userName" placeholder="Enter Name" pattern="[a-zA-Z0-9]+" minlength="3" maxlength="10">
+                            <small id="userNameErr" class="form-text text-danger"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Surname</label>
+                            <input required type="text" class="form-control" id="userSurName" aria-describedby="userSurName" placeholder="Enter Surname" pattern="[a-zA-Z0-9]+" minlength="3" maxlength="10">
+                            <small id="userSurNameErr" class="form-text text-danger"></small>
+                            <input hidden type="text" class="form-control" id="offerUId">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary" onclick="saveModal()">Reserve</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">document.addEventListener("DOMContentLoaded", () => {
+        GetAllLocations();
+    });
+
+    jQuery.validator.setDefaults({
+        debug: true,
+        success: "valid"
+    });
+
+    function GetAllLocations() {
+        console.log("Get all locations");
+        $.getJSON("/Locations/GetAllLocations", function (locations) {
+            $("#tbLocation tbody tr").remove();
+            $.map(locations, function (location) {
+                $("#tbLocation tbody").append(
+                    "<tr>"
+                    + "<td>" + location.country + "</td>"
+                    + "<td>" + location.city + "</td>"
+                    + "<td>" + location.name + "</td>"
+                    + "<td>"
+                    + " <button class='btn btn-primary' onclick='getOffers(" + location.id + ")'> Check Offers</button> "
+                    + "</td>"
+                    + "</tr>"
+                );
+            });
+        });
+    };
+
+    function getOffers(locationId) {
+        if (locationId > 0) {
+
+            console.log(typeof (ofid));
+
+            $.ajax({
+                url: '/Locations/GetOffers?locationId=' + locationId,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    $("#cardList").empty();
+                    $.each(data, function (i) {
+
+                        var templateString =
+                            '<div class="col-sm-6 col-md-4 col-lg-3">'
+                            + '<div class="card" style="width: 18rem;\">'
+                            + '<img class="card-img-top" src=' + data[i].vehicle.imageLink + ' alt="Card image cap">'
+                            + ' <div class="card-body\">'
+                            + '<h5 class=\"card-title\">' + data[i].vehicle.modelName + '<\/h5>'
+                            + '<h6>' + data[i].vehicle.sipp + '</h6>'
+                            + '<p class=\"card-text\"> ' + data[i].price.currency + ' ' + data[i].price.amount + ' <\/p>'
+                            + ' <div class="d-flex justify-content-center">                                    '
+                            + '    <div class="col-2 "><img src="' + data[i].vendor.imageLink + '" style="width:30px;height:30px;"></div>'
+                            + '    <div class="col-6 "><p>' + data[i].vendor.name + '</p></div>'
+                            + '    <div class="col-4 ">'
+                            + '<button type="button" class="btn btn-success" onclick="showModal(\'' + data[i].offerUId + '\')">Reserve</button>'
+                            + '</div > '
+                            + '   </div> '
+                            + '   </div> '
+                            + '<\/div>'
+                            + '<\/div>'
+                            + '<\/div>';
+
+                        $('#cardList').append(templateString);
+                    })
+
+                },
+                error: function (err) {
+                    console.log("Error")
+                }
+            });
+        } else {
+            console.log("No data");
+        }
+    };
+
+    function createReservation(offerUId, name, surname) {
+        console.log(String(offerUId));
+        $.ajax({
+            url: "/Locations/CreateReservation?offerUId=" + offerUId + '&name=' + name + '&surname=' + surname,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                showSuccessModal(data.confirmationNumber);
+                $('#place_order_modal').modal('hide');
+            },
+            error: function (err) {
+                console.log("Error")
+            }
+        });
+    }
+
+    function closeModal() {
+        event.preventDefault();
+        jQuery.noConflict();
+        resetModal();
+        $('#place_order_modal').modal('hide');
+    }
+
+    function saveModal() {
+        event.preventDefault();
+        jQuery.noConflict();
+        var name = $('#userName').val();
+        var surName = $('#userSurName').val();
+        var offerUId = $('#offerUId').val();
+
+        var nameValidated = false;
+        var surnameValidated = false;
+
+        if (name.match(/^([a-zA-Z]{3,10})$/)) {
+            nameValidated = true;
+        } else {
+            document.querySelector("#userNameErr").innerHTML = "Name length should be 3-10";
+        }
+
+        if (surName.match(/^([a-zA-Z]{3,10})$/)) {
+            surnameValidated = true;
+        } else {
+            document.querySelector("#userSurNameErr").innerHTML = "Surname length should be 3-10";
+        }
+
+        if (nameValidated && surnameValidated) {
+            createReservation(offerUId, name, surName);
+            resetModal();
+            //$('#place_order_modal').modal('hide');
+        }
+
+
+    }
+
+    function resetModal() {
+        $('#place_order_modal').trigger('reset')
+        document.querySelector("#userNameErr").innerHTML = "";
+        document.querySelector("#userSurNameErr").innerHTML = "";
+        $('#userName').val("")
+        $('#userSurName').val("")
+        $('#offerUId').val("")
+
+    }
+
+
+    function formValidation(name, surname) {
+        if (name === "") {
+
+        }
+    }
+
+    function showModal(offerUId) {
+        event.preventDefault();
+        jQuery.noConflict();
+        $('#place_order_modal').modal('show');
+        $('#offerUId').val(offerUId);
+    }
+
+    function showSuccessModal(order_num) {
+        $("#success_msg").empty();
+        var txt = '<div class="alert alert-success" id="success_msg">'
+            + '<strong>Success!</strong> Order is confirmed '
+            + order_num
+            + '</div>';
+        $('#success_msg').append(txt);
+ 
+    }
+
+
+    </script>
+
+
+

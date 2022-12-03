@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "sbWhJevxpoI+PYv3JwzozupKh+ATpUZX5gkymkbys7f5ib6iMkHtgRYRKnX5P7vaOOjH8PH1+Zv0sjXi4L9uKw==",
+  "success": true,
+  "projectFilePath": "/Users/pramodaya/Desktop/CarRentalRepo/CarRentalTask/CarRentalTask/CarRentalTask.csproj",
+  "expectedPackageFiles": [
+    "/Users/pramodaya/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
