@@ -60,11 +60,6 @@
         GetAllLocations();
     });
 
-    jQuery.validator.setDefaults({
-        debug: true,
-        success: "valid"
-    });
-
     function GetAllLocations() {
         console.log("Get all locations");
         $.getJSON("/Locations/GetAllLocations", function (locations) {
